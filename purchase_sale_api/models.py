@@ -1,10 +1,7 @@
 from django.db import models
-import json
+
 
 class PurchaseSaleData(models.Model):
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, 
-        sort_keys=True, indent=4)
 
     date = models.DateField()
     country = models.TextField(blank=False, default='')
