@@ -41,12 +41,12 @@ To upload purchase sale csv data, and convert all currency values to Euros accor
 
 ## Steps to run
 
-<!-- - Run via Docker with a postgres db
+- Run in Docker(uses PostgresDB)
 ```
 docker-compose up
-``` -->
+```
 
-- Run without Docker
+- Run without Docker(uses sqliteDB)
 ```
 sh run.sh
 ```
@@ -60,8 +60,8 @@ sh run.sh
 | GET    | http://localhost:8080/data?country={country}&date={date} | Query params need to be specified, 'country' needs to be an ISO 3166 code e.g ```ZA``` and date needs to be in this format ```2022-04-28```. |
 
 ## Still to do
-- [] Some data still not sanitized
-- [] Run in Docker(some minor issue) along with connecting to postgres db
+- [x] Run in Docker
+- [x] Switch to Postgres database when running with Docker
 - [] Upload CSV data asynchronously
 - [] Make upload of CSV data dynamic, so if more columns/headings is added or rerrranged it won't break the code
 - [] Refactor and folder restructure
@@ -73,5 +73,5 @@ sh run.sh
 
 
 ### Data sources
-[ECB SDMX 2.1 RESTful](https://sdw-wsrest.ecb.europa.eu/help/)\
-[Datahub Country Lists](https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json)
+[ECB SDMX 2.1 RESTful](https://sdw-wsrest.ecb.europa.eu/help/) ~ to retrieve exchange rate\
+[Datahub Country Lists](https://pkgstore.datahub.io/core/country-list/data_json/data/8c458f2d15d9f2119654b29ede6e45b8/data_json.json) ~ to retrieve country iso codes
