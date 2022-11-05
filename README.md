@@ -1,9 +1,9 @@
-# Simple Django API
+# Basic Django app
 
 This Django project contains one app, that's a rest api that ingests uploaded csv data and santizes, processes and stores data to db.
 
-## Goals of project
-To upload purchase sale csv data, and convert all currency values to Euros according to the exchange at the time the entry was created as well as getting ISO 3166 for each country. Followed by the ability to filter through the data via a get endpoint.
+## Overview
+ Upload purchase sale csv data, and convert all currency values to Euros according to the exchange at the time the entry was created as well as getting ISO 3166 for each country. Followed by the ability to filter through the data via a get endpoint.
 
 ## Features
 - Ingest purchase sale CSV data.
@@ -48,6 +48,7 @@ docker-compose up
 
 - Run without Docker(uses sqliteDB)
 ```
+sh scripts/setup.sh
 sh run.sh
 ```
 
@@ -56,21 +57,22 @@ sh run.sh
 | Method | Endpoint                                                 | Usage                                                                                                                               |
 |--------|----------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | GET    | http://localhost:8080/                                   | Server liveness check, just returns 200Ok if server is up.                                                                          |
-| POST   | http://localhost:8080/upload                             | Upload CSV as a form data body type with a key of 'file'.                                                                           |
+| POST   | http://localhost:8080/upload                             | Upload CSV as a form data body type with a key of ```file```.                                                                           |
 | GET    | http://localhost:8080/data?country={country}&date={date} | Query params need to be specified, 'country' needs to be an ISO 3166 code e.g ```ZA``` and date needs to be in this format ```2022-04-28```. |
 
 ## Still to do
 - [x] Run in Docker
 - [x] Switch to Postgres database when running with Docker
-- [] Upload CSV data asynchronously
-- [] Make upload of CSV data dynamic, so if more columns/headings is added or rerrranged it won't break the code
-- [] Refactor and folder restructure
-- [] Make use of database read only replicas
-- [] Basic auth e.g api_key
+- [ ] Upload CSV data asynchronously
+- [ ] Make upload of CSV data dynamic, so if more columns/headings is added or rerrranged it won't break the code
+- [x] Refactor and folder restructure
+- [ ] Make use of database read only replicas
+- [ ] Basic auth e.g api_key
+- [x] Pre-commit setup
 
 ## Available commands
-- ```sh clean.sh```
-
+- ```sh scripts/setup.sh```
+- ```sh scripts/clean.sh```
 
 ### Data sources
 [ECB SDMX 2.1 RESTful](https://sdw-wsrest.ecb.europa.eu/help/) ~ to retrieve exchange rate\

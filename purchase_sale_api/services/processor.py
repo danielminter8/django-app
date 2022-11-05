@@ -1,19 +1,21 @@
-from purchase_sale_api.models import PurchaseSaleData
+from __future__ import annotations
+
 from datetime import datetime
-from django.core import serializers
-from purchase_sale_api.services.exchangerate import get_exchange_rate
+
+from purchase_sale_api.models import PurchaseSaleData
 from purchase_sale_api.services.countrycodes import get_country_iso_codes
-import json
+from purchase_sale_api.services.exchangerate import get_exchange_rate
 
 
-def processor(csv_file):
+async def processor(csv_file):
+
     csv_data_set = csv_file.read().decode('UTF-8')
-    lines = csv_data_set.split("\n")
+    lines = csv_data_set.split('\n')
     csv_headings = None
 
     for line in lines:
 
-        fields = line.split(",")
+        fields = line.split(',')
 
         if csv_headings is None:
             csv_headings = extract_headings_from_csv(fields)
@@ -27,7 +29,7 @@ def processor(csv_file):
         # format and parse date
         try:
             dt = datetime.strptime(fields[0], '%Y/%m/%d')
-            de = '{0}-{1}-{2:02}'.format(dt.year, dt.month, dt.day)
+            de = f'{dt.year}-{dt.month}-{dt.day:02}'
         except Exception as e:
             print(e)
 
@@ -41,17 +43,18 @@ def processor(csv_file):
 
         # get and set country iso code
         data.country_code = get_country_iso_codes(data.country)
+
         # convert to euros
         cc = get_exchange_rate(data.currency, dt.year, dt.month, dt.day)
-        print("converting ", data.currency, " to Euros -->", cc)
+        print('converting ', data.currency, ' to Euros -->', cc)
         if cc is not None and cc != '':
-            data.currency = "EUR"
+            data.currency = 'EUR'
             data.net = float(data.net)/float(cc)
             data.vat = float(data.vat)/float(cc)
 
         data.save()
 
-    return ""
+    return ''
 
 
 def extract_headings_from_csv(fields):
